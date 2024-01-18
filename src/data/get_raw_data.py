@@ -1,7 +1,21 @@
 # -*- coding: utf-8 -*-
-import click
 import logging
+
+import click
 import kaggle
+
+raw_data_logger = logging.getLogger(__name__)
+raw_data_logger.setLevel(logging.INFO)
+
+raw_data_handler: logging.FileHandler = logging.FileHandler(
+    f'./.logs/{__name__}.log', mode='w'
+)
+raw_data_formatter: logging.Formatter = logging.Formatter(
+    '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+
+raw_data_handler.setFormatter(raw_data_formatter)
+raw_data_logger.addHandler(raw_data_handler)
 
 
 @click.command()
@@ -20,25 +34,21 @@ import kaggle
          'Default value: sinamhd9/concrete-comprehensive-strength',
 )
 def get_raw_data(output_file_path: str, dataset: str) -> None:
-    """ Download raw data from Kaggle Concrete Compressive Strength dataset by
+    ''' Download raw data from Kaggle Concrete Compressive Strength dataset with
         Kaggle API and save it into (<project_dir>/data/raw/). In order to use
-        the Kaggle’s public API an API token must be in the
+        the Kaggle`s public API an API token must be in the
         (~/.kaggle/kaggle.json).
-    """
+    '''
 
-    log_fmt: str = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    logging.basicConfig(level=logging.INFO, format=log_fmt)
-    logger: logging.Logger = logging.getLogger(__name__)
-
-    kaggle.api.authenticate()
-    logger.info('authenticated with Kaggle API')
+    raw_data_logger.info('get raw data from Kaggle API')
 
     kaggle.api.dataset_download_files(
         dataset,
         path=output_file_path,
         unzip=True,
     )
-    logger.info('downloaded raw data from Kaggle')
+
+    raw_data_logger.info('downloaded raw data from Kaggle')
 
 
 if __name__ == '__main__':
