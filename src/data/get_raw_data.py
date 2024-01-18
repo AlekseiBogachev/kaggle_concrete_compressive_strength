@@ -22,23 +22,35 @@ raw_data_logger.addHandler(raw_data_handler)
 @click.option(
     '-o', '--output-file-path', 'output_file_path',
     default='../../data/raw',
-    help='Folder where file(s) will be downloaded.\n'
-         'Default value: (<project_dir>/data/raw/)',
+    help='Path to the folder where file(s) will be downloaded. '
+         'The default value is <project_dir>/data/raw/ .',
     type=click.Path(exists=True),
 )
 @click.option(
     '-d', '--dataset', 'dataset',
     default='sinamhd9/concrete-comprehensive-strength',
     help='Dataset URL suffix in format <owner>/<dataset-name>, '
-         'or <owner>/<dataset-name>/<version-number> for a specific version.\n'
-         'Default value: sinamhd9/concrete-comprehensive-strength',
+         'or <owner>/<dataset-name>/<version-number> for a specific version. '
+         'The default value is sinamhd9/concrete-comprehensive-strength .',
 )
 def get_raw_data(output_file_path: str, dataset: str) -> None:
-    ''' Download raw data from Kaggle Concrete Compressive Strength dataset with
-        Kaggle API and save it into (<project_dir>/data/raw/). In order to use
+    """ Download raw dataset from Kaggle.
+
+        By default download Concrete Compressive Strength dataset with
+        Kaggle API and save it into <project_dir>/data/raw/ . In order to use
         the Kaggle`s public API an API token must be in the
-        (~/.kaggle/kaggle.json).
-    '''
+        ~/.kaggle/kaggle.json .\f
+
+        Parameters
+        ----------
+        output_file_path : str, optional
+            Path to the folder where file(s) will be downloaded.
+            The default value: <project_dir>/data/raw/ .
+        dataset : str, optional
+            Dataset URL suffix in format <owner>/<dataset-name>, or
+            <owner>/<dataset-name>/<version-number> for a specific version.
+            The default value is sinamhd9/concrete-comprehensive-strength .'
+    """
 
     raw_data_logger.info('get raw data from Kaggle API')
 
